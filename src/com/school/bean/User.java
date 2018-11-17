@@ -1,0 +1,108 @@
+package com.school.bean;
+
+public class User {
+    private Integer account; // 账户
+
+    private String name; // 名字
+
+    private Short age; // 年龄
+
+    private String sex; // 性别
+
+    private String school; // 所属学校
+
+    private String password; // 密码
+
+    private String path; // 付款码地址
+
+    private Integer credit; // 信用分
+
+    private String otheraccount; // 其他账号
+
+    public Integer getAccount() {
+        return account;
+    }
+
+    public void setAccount(Integer account) {
+        this.account = account;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public Short getAge() {
+        return age;
+    }
+
+    public void setAge(Short age) {
+        this.age = age;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : sex.trim();
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school == null ? null : school.trim();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path == null ? null : path.trim();
+    }
+
+    public Integer getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Integer credit) {
+        this.credit = credit;
+    }
+
+    public String getOtheraccount() {
+        return otheraccount;
+    }
+
+    public void setOtheraccount(String otheraccount) {
+        this.otheraccount = otheraccount == null ? null : otheraccount.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "account=" + account +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", sex='" + sex + '\'' +
+                ", school='" + school + '\'' +
+                ", password='" + password + '\'' +
+                ", path='" + path + '\'' +
+                ", credit=" + credit +
+                ", otheraccount='" + otheraccount + '\'' +
+                '}';
+    }
+}
