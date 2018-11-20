@@ -47,7 +47,6 @@
 </head>
 
 <body>
-<h1>${fail}</h1>
 <div class="container-fluid-full">
     <div class="row-fluid">
 
@@ -145,7 +144,7 @@
 <%--取出记住的密码--%>
 <script>
     $(document).ready(function () {
-       document.getElementById("username").value=${sessionScope.account};
+        document.getElementById("username").value=${sessionScope.account};
         document.getElementById("password").value=${sessionScope.password};
     });
 </script>

@@ -2,7 +2,7 @@ package com.school.bean;
 
 import java.util.Date;
 
-public class IssueTask {
+public class Issuetask {
     private Integer id; // 任务编号
 
     private String request; // 任务要求

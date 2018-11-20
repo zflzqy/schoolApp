@@ -3,6 +3,7 @@ package com.school.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.school.bean.User;
 import com.school.service.LoginService;
+import com.school.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,11 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
 @Controller
 @RequestMapping("")
+/*
+*  这里有针对管理级别设定的，并不是谁都能进入
+* */
 public class LoginController {
     @Autowired
     LoginService loginService;
@@ -38,6 +41,7 @@ public class LoginController {
         request.getSession().setMaxInactiveInterval(30*24*60*60); // session时间位30 天
         request.getSession().setAttribute("account",user.getAccount()); // 记录账号
         // 直接使用bean将导致参数类型不同时报404
+        System.out.println(user.toString());
         user = loginService.isLoginSuccess(user);
         // 指定页面
         if (user!=null){
@@ -57,5 +61,16 @@ public class LoginController {
             jsonObject.put("fail","fail");
         }
         return jsonObject;
+    }
+    // 成功登录后执行该地址
+    @RequestMapping("/loginSuccess")
+    public ModelAndView modelAndView(HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        // 添加分页，防止初始页面报错
+//        modelAndView.addObject("userPage",new Page());
+//        modelAndView.addObject("taskPage",new Page());
+        // 设置显示页面
+        modelAndView.setViewName("usermanager");
+        return modelAndView;
     }
 }

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -82,7 +83,7 @@
             <div class="nav-collapse sidebar-nav">
                 <ul class="nav nav-tabs nav-stacked main-menu">
                     <li><a ><i class="icon-bar-chart"></i><span id="userManager" class="hidden-tablet"> 用户管理</span></a></li>
-                    <li><a><i class="icon-align-justify"></i><span id="orderManager" class="hidden-tablet"> 订单管理</span></a></li>
+                    <li><a><i class="icon-align-justify"></i><span id="taskManager" class="hidden-tablet"> 订单管理</span></a></li>
                 </ul>
             </div>
         </div>
@@ -100,13 +101,29 @@
                 <li><span id="bigTitle"></span></li>
             </ul>
 
-            <div class="row-fluid sortable">
+            <div class="row-fluid sortable" style="padding-bottom: 20px">
                 <div class="box span12">
                     <div class="box-header" data-original-title>
                         <h2><i class="halflings-icon white user"></i>
                             <span class="break" id="samllTitle"></span></h2>
+                            <div style="display: inline;float: right">
+                                <input id="searchRequire" type="text">
+                              <span id="searchTaskType" >搜索类型:</span>
+                                        <select  id="searchTaskOption" data-rel="chosen">
+                                            <option>任务id</option>
+                                            <option>发布人账号</option>
+                                            <option>领取人账号</option>
+                                            <option>类型</option>
+                                            <option>价格</option>
+                                        </select>
+                                <button type="button" class="btn btn-primary" style="padding-bottom: 10px" id="searchTask">查找</button>
+                                <button type="button" class="btn btn-primary" style="padding-bottom: 10px" id="searchByAccount">按账号查找</button>
+                                <button type="button" class="btn btn-primary" style="padding-bottom: 10px" id="searchByName">按用户名查找</button>
+
+                            </div>
                     </div>
-                    <div class="box-content">
+                    <div style="height: 10px;background:#578ebe "></div>
+                    <div class="box-content" style="padding-top: 20px">
                         <table class="table table-striped table-bordered bootstrap-datatable datatable">
                             <thead>
                             <tr>
@@ -118,31 +135,20 @@
                                 <th id="six"></th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td>zfl</td>
-                                <td class="center">123123</td>
-                                <td class="center">10</td>
-                                <td class="center">10</td>
-                                <td class="center">1100</td>
-                                <td class="center" id="more" >这是多出来了的给订单用的</td>
-                                <td class="center">
-                                    <a class="btn btn-info" href="#">
-                                        <i class="halflings-icon white edit"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                            <tbody id="Info">
+
                             </tbody>
+
                         </table>
                     </div>
                 </div><!--/span-->
             </div>
             <!--/row-->
             <div style="text-align:center;float: bottom;">
-                <a href="?start=0">首  页</a>
-                <a href="?start=${page.start-page.count}">上一页</a>
-                <a href="?start=${page.start+page.count}">下一页</a>
-                <a href="?start=${page.last}">末  页</a>
+                <a id="first">首  页</a>
+                <a id="previous">上一页</a>
+                <a id="next">下一页</a>
+                <a id="end">末  页</a>
             </div>
         </div>
 
@@ -158,41 +164,319 @@
 <script src="/static/js/jquery.flot.pie.js"></script>
 <script src="/static/js/jquery.flot.stack.js"></script>
 <script src="/static/js/jquery.flot.resize.min.js"></script>
+<%--显示--%>
 <script>
+    // 初始化分页开始为0
+    var  userstart = 0;
+    var  taskstart = 0;
+    // 每页的分页数量
+    var  count = 10;
+    var  userlast,tasklast;
     $(document).ready(function () {
         document.getElementById("content").style.display="none";
     });
     $("#userManager").click(function () {
         // 用户管理
         document.getElementById("content").style.display="";
-        alert("hi，这是用户");
+        //显示查询
+        document.getElementById("searchByAccount").style.display="";
+        document.getElementById("searchByName").style.display="";
+        // 隐藏任务查询
+        document.getElementById("searchTaskOption").style.display="none";
+        document.getElementById("searchTask").style.display="none";
+        document.getElementById("searchTaskType").style.display="none";
+        // 清空查询条件
+        $("#searchRequire").val("");
         $.ajax({
-            url:"",
+            url:"/userManager",
             data:{
-                // 执行对应请求 1===》代表用户管理，2===》订单管理
-                code:1
+                start:userstart
             },
-            success:function () {
+            success:function (data) {
+                // 接收分页最后一页
+                userlast = data.userlast;
                 document.getElementById("bigTitle").innerText="用户管理";
                 document.getElementById("samllTitle").innerText="用户";
                 document.getElementById("one").innerText="用户名";
                 document.getElementById("two").innerText="账号";
                 document.getElementById("three").innerText="发布量";
                 document.getElementById("four").innerText="领取量";
-                document.getElementById("five").innerText="详细";
-                document.getElementById("six").innerText="信用等级";
-                document.getElementById("more").style.display="none";
-                alert("成功啦");
+                document.getElementById("five").innerText="信用等级";
+                document.getElementById("six").innerText="详细";
+                // 清空信息
+                $("#Info").empty();
+                // 循环打印输出
+                var html ="";
+                for (var i=0;i<data.users.length;i++){
+                    html +="<tr>";
+                    html+="<td >"+data.users[i].name+"</td>"; // 拼接名称
+                    html +="<td>"+data.users[i].account+"</td>"; // 拼接账号
+                    html +="<td>"+data.users[i].issueCount+"</td>"; // 拼接发布量
+                    html +="<td>"+data.users[i].receiveCount+"</td>"; // 拼接发布量
+                    html +="<td>"+data.users[i].credit+"</td>"; // 拼接账号
+                    html +="<td>"+"<a class=\"btn btn-info\" href=\"#\"><i class=\"halflings-icon white edit\"></i></a>"+"</td>"; // 拼接详细
+                    html+="</tr>";
+
+                }
+                $("#Info").append(html);
             },
             error:function () {
                 alert("服务器出了点小问题啦");
             }
         })
     });
-    $("#orderManager").click(function () {
-        // 用户管理
+    $("#taskManager").click(function () {
+        // 任务管理
         document.getElementById("content").style.display="";
-        alert("hi，这是订单");
+        //隐藏用户查询
+        document.getElementById("searchByAccount").style.display="none";
+        document.getElementById("searchByName").style.display="none";
+        // 显示查询
+        document.getElementById("searchTaskOption").style.display="";
+        document.getElementById("searchTask").style.display="";
+        document.getElementById("searchTaskType").style.display="";
+        $("#searchRequire").val("");
+        $.ajax({
+            url:"/taskManager",
+            data:{
+                start:taskstart
+            },
+            success:function (data) {
+                // 接收分页最后一页
+                tasklast = data.tasklast;
+                document.getElementById("bigTitle").innerText="任务管理";
+                document.getElementById("samllTitle").innerText="任务";
+                document.getElementById("one").innerText="任务id";
+                document.getElementById("two").innerText="发布人账号";
+                document.getElementById("three").innerText="领取人账号";
+                document.getElementById("four").innerText="类型";
+                document.getElementById("five").innerText="价格";
+                document.getElementById("six").innerText="详细";
+                // 清空信息
+                $("#Info").empty();
+                // 循环打印输出
+                var html ="";
+                for (var i=0;i<data.tasks.length;i++){
+                    html +="<tr>";
+                    html+="<td >"+data.tasks[i].id+"</td>"; // 拼接id
+                    html +="<td>"+data.tasks[i].issueAccount+"</td>"; // 拼接发布账号
+                    if (data.tasks[i].receiveaccount==null){
+                        // 如果无人领取
+                        html +="<td>"+"未领取"+"</td>";
+                    }else {
+                        html +="<td>"+data.tasks[i].receiveaccount+"</td>"; // 拼接领取人账号
+                    }
+                    html +="<td>"+data.tasks[i].type+"</td>"; // 拼接类型
+                    html +="<td>"+data.tasks[i].price+"</td>"; // 拼接价格
+                    html +="<td>"+"<a class=\"btn btn-info\" href=\"#\"><i class=\"halflings-icon white edit\"></i></a>"+"</td>"; // 拼接详细
+                    html+="</tr>";
+
+                }
+                $("#Info").append(html);
+            },
+            error:function () {
+                alert("服务器出了点小问题啦");
+            }
+        })
+    });
+</script>
+<%--分页处理--%>
+<script>
+    // 当点击的显示信息
+    var who = document.getElementById("samllTitle");
+    // 获取ajax请求按钮对象
+    var user = document.getElementById("userManager");
+    var task = document.getElementById("taskManager");
+    // 这里必须要who.innerText才能取值，而且无法保存到变量
+    // 首页
+    $("#first").click(function () {
+       // 点击首页的时候的处理
+        if (who.innerText=="用户") {
+            if (userstart==0){
+                alert("到第一页啦");
+            }
+            userstart = 0;
+            // 触发获取用户信息请求
+            user.click();
+        }else if(who.innerText=="任务"){
+            if (taskstart==0){
+                alert("到第一页啦");
+            }
+            taskstart = 0;
+            // 触发获取任务信息请求
+            task.click();
+        }
+    });
+    // 上一页
+    $("#previous").click(function () {
+        // 点击上一页的时候的处理
+        if (who.innerText=="用户") {
+            if (userstart==0){
+                alert("到首页啦啦啦");
+                return false;
+            } else {
+                userstart = userstart-count;
+                // 触发获取用户信息请求
+                user.click();
+            }
+        }else if(who.innerText=="任务"){
+            if (taskstart==0){
+                alert("到首页啦啦啦");
+                return false;
+            } else {
+                taskstart = taskstart-count;
+                // 触发获取任务信息请求
+                task.click();
+            }
+        }
+    });
+    // 下一页
+    $("#next").click(function () {
+        // 点击下一页的时候的处理
+        if (who.innerText=="用户") {
+            if (userstart==userlast){
+                alert("到地啦");
+                return false;
+            } else {
+                userstart = userstart+count;
+                // 触发获取用户信息请求
+                user.click();
+            }
+        }else if(who.innerText=="任务"){
+            if (taskstart==tasklast){
+                alert("到地啦");
+                return false;
+            } else {
+                taskstart = taskstart+count;
+                // 触发获取任务信息请求
+                task.click();
+            }
+        }
+    });
+    // 尾页
+    $("#end").click(function () {
+        // 点击下一页的时候的处理
+        if (who.innerText=="用户") {
+            if (userstart==userlast){
+                alert("到地啦");
+                return false;
+            } else {
+                userstart = userlast;
+                // 触发获取用户信息请求
+                user.click();
+            }
+        }else if(who.innerText=="任务"){
+            if (taskstart==tasklast){
+                alert("到地啦");
+                return false;
+            } else {
+                taskstart = tasklast;
+                // 触发获取任务信息请求
+                task.click();
+            }
+        }
+    });
+</script>
+<%--按不同的查找用户--%>
+<script>
+    var  content;
+    // 按用户名查找
+    $("#searchByName").click(function () {
+        content = document.getElementById("searchRequire").value;
+        if (content.trim()==""){
+            alert("没输入呢");
+            return false;
+        }else {
+            $.ajax({
+                url:"/searchByName",
+                data:{
+                    name:content
+                },
+                datatype:"json",
+                success:function (data) {
+                    if (data =="") {
+                        alert("没有查到对应的数据，重新输入把");
+                    }else {
+                        // 清空div内容
+                        $("#Info").empty();
+                        var html = "";
+                        for (var i = 0; i < data.userByName.length; i++) {
+                            html += "<tr>";
+                            html += "<td >" + data.userByName[i].name + "</td>"; // 拼接名称
+                            html += "<td>" + data.userByName[i].account + "</td>"; // 拼接账号
+                            html += "<td>" + data.userByName[i].issueCount + "</td>"; // 拼接发布量
+                            html += "<td>" + data.userByName[i].receiveCount + "</td>"; // 拼接发布量
+                            html += "<td>" + data.userByName[i].credit + "</td>"; // 拼接信用
+                            html += "<td>" + "<a class=\"btn btn-info\" href=\"#\"><i class=\"halflings-icon white edit\"></i></a>" + "</td>"; // 拼接详细
+                            html += "</tr>";
+
+                        }
+                        $("#Info").append(html);
+                    }
+                },
+                error: function () {
+                    alert("服务器有点小问题呢");
+                }
+            })
+        }
+    });
+    $("#searchByAccount").click(function () {
+        content = document.getElementById("searchRequire").value;
+        if (content.trim()==""){
+            alert("没输入呢");
+            return false;
+        }else {
+            $.ajax({
+                url:"/searchByAccount",
+                data:{
+                    account:content
+                },
+                datatype:"json",
+                success:function (data) {
+                    if (data =="") {
+                        alert("没有查到对应的数据，重新输入把");
+                    } else {
+                        // 清空div内容
+                        $("#Info").empty();
+                            var html = "";
+                            html += "<tr>";
+                            html += "<td >" + data.userByAccount.name + "</td>"; // 拼接名称
+                            html += "<td>" + data.userByAccount.account + "</td>"; // 拼接账号
+                            html += "<td>" + data.userByAccount.issueCount + "</td>"; // 拼接发布量
+                            html += "<td>" + data.userByAccount.receiveCount + "</td>"; // 拼接发布量
+                            html += "<td>" + data.userByAccount.credit + "</td>"; // 拼接信用
+                            html += "<td>" + "<a class=\"btn btn-info\" href=\"#\"><i class=\"halflings-icon white edit\"></i></a>" + "</td>"; // 拼接详细
+                            html += "</tr>";
+                        $("#Info").append(html);
+                    }
+                },
+                error: function () {
+                    alert("服务器有点小问题呢");
+                }
+            })
+        }
+    });
+</script>
+<%--任务查询--%>
+<script>
+    $("#searchTask").click(function () {
+       var  required = $("#searchTaskOption option:selected").val();
+        content = document.getElementById("searchRequire").value;
+       alert(required);
+       $.ajax({
+           url:"/searchByRequired",
+           data:{
+               content:content,
+               type:required
+           },
+           datatype:'json',
+           success:function () {
+                alert("成功");
+           },
+           error:function () {
+               alert("服务器有点小问题");
+           }
+       })
     });
 </script>
 </body>

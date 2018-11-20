@@ -19,6 +19,10 @@ public class User {
 
     private String otheraccount; // 其他账号
 
+    private Integer issueCount; // 发布量
+
+    private Integer receiveCount; // 领取量
+
     public Integer getAccount() {
         return account;
     }
@@ -89,6 +93,22 @@ public class User {
 
     public void setOtheraccount(String otheraccount) {
         this.otheraccount = otheraccount == null ? null : otheraccount.trim();
+    }
+
+    public Integer getIssueCount() {
+        return issueCount;
+    }
+
+    public void setIssueCount(Integer issueCount) {
+        this.issueCount = issueCount;
+    }
+
+    public Integer getReceiveCount() {
+        return receiveCount;
+    }
+
+    public void setReceiveCount(Integer receiveCount) {
+        this.receiveCount = receiveCount;
     }
 
     @Override

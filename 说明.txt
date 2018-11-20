@@ -1,3 +1,18 @@
+索引：
+规范：普通索引名称以IDX_为前缀，约束性索引命名参见约束章节说明。不区分B-TREE索引，位图索引、函数索引等类型。
+建议：单字段索引的命名方式为：IDX_表名_字段名，表名无须前缀，命名长度太长时表名和字段名可以考虑缩写。
+建议：多字段联合索引命名方式同单字段，考虑长度限制，可以只列出主要字段名或者采用缩写方式描述索引字段
+建立索引：CREATE INDEX index_name ON table_name (column_list)
+删除索引：DROP INDEX index_name ON talbe_name
+查看索引:show index（keys） from tblname;括号内互换
+修改索引：先删除再增加
+外键的命名为 fk_外键所在的表名_外键引用的表名 。
 当添加controller注解传入的参数时要注意传入的类型，即前端的encodetype
 注入bean类型是可以不用完全参数注入，只注入部分参数
 spring注入的时候参数类型不同将导致404
+Result Maps collection does not contain value for xxx         :
+出现上述错误 主要是因为你的select标签内部的resultMap属性指向的不正确
+在sql文件中只要有一个resultMap或resultType属性指向错误，则在这个文件中其余正确的语句也不能执行，
+所以在出现上述错误时，可能不是当前正在执行的语句的错误，而是该文件中其它语句映射错了
+认真检查其它语句。
+样式问题====》编码导致

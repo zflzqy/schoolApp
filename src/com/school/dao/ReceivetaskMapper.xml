@@ -5,30 +5,41 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="receiveaccount" property="receiveaccount" jdbcType="INTEGER" />
     <result column="finishtime" property="finishtime" jdbcType="TIMESTAMP" />
+    <result column="iid" property="iid" jdbcType="INTEGER" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from receivetask
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.school.bean.Receivetask" >
-    insert into receivetask (id, receiveaccount, finishtime
-      )
-    values (#{id,jdbcType=INTEGER}, #{receiveaccount,jdbcType=INTEGER}, #{finishtime,jdbcType=TIMESTAMP}
-      )
+    insert into receivetask (id, receiveaccount, finishtime, 
+      iid)
+    values (#{id,jdbcType=INTEGER}, #{receiveaccount,jdbcType=INTEGER}, #{finishtime,jdbcType=TIMESTAMP}, 
+      #{iid,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.school.bean.Receivetask" >
     update receivetask
     set receiveaccount = #{receiveaccount,jdbcType=INTEGER},
-      finishtime = #{finishtime,jdbcType=TIMESTAMP}
+      finishtime = #{finishtime,jdbcType=TIMESTAMP},
+      iid = #{iid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, receiveaccount, finishtime
+    select id, receiveaccount, finishtime, iid
     from receivetask
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, receiveaccount, finishtime
+    select id, receiveaccount, finishtime, iid
     from receivetask
+  </select>
+  <select id="selectReceiveCountByAcount" resultType="int">
+    select count(*) from receivetask where receiveaccount=#{account}
+  </select>
+  <select id="selectByIid" resultMap="BaseResultMap">
+    select * from receivetask where iid=#{iid}
+  </select>
+  <select id="selectReceivetask" resultMap="BaseResultMap">
+    select * from receivetask where receiveaccount=#{receiveaccount}
   </select>
 </mapper>

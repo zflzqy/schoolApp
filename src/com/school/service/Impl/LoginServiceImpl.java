@@ -6,11 +6,8 @@ import com.school.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Service("LoginService")
-public class LoginImpl implements LoginService {
+public class LoginServiceImpl implements LoginService {
     @Autowired
     UserMapper mapper;
     @Override

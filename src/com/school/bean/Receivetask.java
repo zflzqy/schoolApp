@@ -9,6 +9,8 @@ public class Receivetask {
 
     private Date finishtime; // 完成时间
 
+    private Integer iid; // 任务id
+
     public Integer getId() {
         return id;
     }
@@ -31,5 +33,13 @@ public class Receivetask {
 
     public void setFinishtime(Date finishtime) {
         this.finishtime = finishtime;
+    }
+
+    public Integer getIid() {
+        return iid;
+    }
+
+    public void setIid(Integer iid) {
+        this.iid = iid;
     }
 }
