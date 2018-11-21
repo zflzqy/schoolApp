@@ -10,4 +10,6 @@ public interface TaskService {
     List<Task> selectTask(Page page);
     // 获取任务按条件查询
     List<Task> selectByWhere(String content,String type);
+    // 删除任务
+    void deletTask(int id);
 }

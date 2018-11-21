@@ -24,7 +24,9 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
     <!-- end: CSS -->
 
-
+    <!-- Sweet Alert -->
+    <link href="/static/js/sweetalert.css" rel="stylesheet">
+    <link href="/static/js/datepicker3.css" rel="stylesheet">
     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -145,25 +147,57 @@
             </div>
             <!--/row-->
             <div style="text-align:center;float: bottom;">
-                <a id="first">首  页</a>
+                <a  id="first" >首  页</a>
                 <a id="previous">上一页</a>
                 <a id="next">下一页</a>
                 <a id="end">末  页</a>
+                <button id="test" class="btn btn-info btn-setting">ceshi</button>
             </div>
         </div>
 
     </div>
 
 </div>
-
 <!-- start: JavaScript-->
 
 <script src="/static/js/jquery-1.9.1.min.js"></script>
-
+<script src="/static/js/sweetalert.min.js"></script>
 <script src="/static/js/jquery.flot.js"></script>
 <script src="/static/js/jquery.flot.pie.js"></script>
 <script src="/static/js/jquery.flot.stack.js"></script>
 <script src="/static/js/jquery.flot.resize.min.js"></script>
+<script>
+    function deleteOrder(self) {
+        swal({
+            title: "是否删除",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonText:"取消",
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定删除",
+            closeOnConfirm: true
+        },function () {
+            // 这里写删除操作
+            var task = self.value;
+            // 请求删除
+            $.ajax({
+                url:"/delete",
+                data:{
+                    id:self.value
+                },
+                type:"POST",
+                datatype:"json",
+                success:function () {
+                    // 删除后重新触发请求用户
+                    user.click();
+                },
+                error:function () {
+                    alert("删除失败");
+                }
+            })
+        });
+    }
+</script>
 <%--显示--%>
 <script>
     // 初始化分页开始为0
@@ -172,6 +206,7 @@
     // 每页的分页数量
     var  count = 10;
     var  userlast,tasklast;
+    var  users,tasks; // 存放数据
     $(document).ready(function () {
         document.getElementById("content").style.display="none";
     });
@@ -203,22 +238,9 @@
                 document.getElementById("four").innerText="领取量";
                 document.getElementById("five").innerText="信用等级";
                 document.getElementById("six").innerText="详细";
-                // 清空信息
-                $("#Info").empty();
-                // 循环打印输出
-                var html ="";
-                for (var i=0;i<data.users.length;i++){
-                    html +="<tr>";
-                    html+="<td >"+data.users[i].name+"</td>"; // 拼接名称
-                    html +="<td>"+data.users[i].account+"</td>"; // 拼接账号
-                    html +="<td>"+data.users[i].issueCount+"</td>"; // 拼接发布量
-                    html +="<td>"+data.users[i].receiveCount+"</td>"; // 拼接发布量
-                    html +="<td>"+data.users[i].credit+"</td>"; // 拼接账号
-                    html +="<td>"+"<a class=\"btn btn-info\" href=\"#\"><i class=\"halflings-icon white edit\"></i></a>"+"</td>"; // 拼接详细
-                    html+="</tr>";
+                users =data.users;
+                showUsers();
 
-                }
-                $("#Info").append(html);
             },
             error:function () {
                 alert("服务器出了点小问题啦");
@@ -252,27 +274,8 @@
                 document.getElementById("four").innerText="类型";
                 document.getElementById("five").innerText="价格";
                 document.getElementById("six").innerText="详细";
-                // 清空信息
-                $("#Info").empty();
-                // 循环打印输出
-                var html ="";
-                for (var i=0;i<data.tasks.length;i++){
-                    html +="<tr>";
-                    html+="<td >"+data.tasks[i].id+"</td>"; // 拼接id
-                    html +="<td>"+data.tasks[i].issueAccount+"</td>"; // 拼接发布账号
-                    if (data.tasks[i].receiveaccount==null){
-                        // 如果无人领取
-                        html +="<td>"+"未领取"+"</td>";
-                    }else {
-                        html +="<td>"+data.tasks[i].receiveaccount+"</td>"; // 拼接领取人账号
-                    }
-                    html +="<td>"+data.tasks[i].type+"</td>"; // 拼接类型
-                    html +="<td>"+data.tasks[i].price+"</td>"; // 拼接价格
-                    html +="<td>"+"<a class=\"btn btn-info\" href=\"#\"><i class=\"halflings-icon white edit\"></i></a>"+"</td>"; // 拼接详细
-                    html+="</tr>";
-
-                }
-                $("#Info").append(html);
+                tasks= data.tasks;
+               showTasks();
             },
             error:function () {
                 alert("服务器出了点小问题啦");
@@ -377,7 +380,7 @@
         }
     });
 </script>
-<%--按不同的查找用户--%>
+<%--按不同的名字查找用户--%>
 <script>
     var  content;
     // 按用户名查找
@@ -397,21 +400,8 @@
                     if (data =="") {
                         alert("没有查到对应的数据，重新输入把");
                     }else {
-                        // 清空div内容
-                        $("#Info").empty();
-                        var html = "";
-                        for (var i = 0; i < data.userByName.length; i++) {
-                            html += "<tr>";
-                            html += "<td >" + data.userByName[i].name + "</td>"; // 拼接名称
-                            html += "<td>" + data.userByName[i].account + "</td>"; // 拼接账号
-                            html += "<td>" + data.userByName[i].issueCount + "</td>"; // 拼接发布量
-                            html += "<td>" + data.userByName[i].receiveCount + "</td>"; // 拼接发布量
-                            html += "<td>" + data.userByName[i].credit + "</td>"; // 拼接信用
-                            html += "<td>" + "<a class=\"btn btn-info\" href=\"#\"><i class=\"halflings-icon white edit\"></i></a>" + "</td>"; // 拼接详细
-                            html += "</tr>";
-
-                        }
-                        $("#Info").append(html);
+                        users =data.users;
+                        showUsers();
                     }
                 },
                 error: function () {
@@ -436,17 +426,19 @@
                     if (data =="") {
                         alert("没有查到对应的数据，重新输入把");
                     } else {
-                        // 清空div内容
+                        // 清空信息
                         $("#Info").empty();
-                            var html = "";
-                            html += "<tr>";
-                            html += "<td >" + data.userByAccount.name + "</td>"; // 拼接名称
-                            html += "<td>" + data.userByAccount.account + "</td>"; // 拼接账号
-                            html += "<td>" + data.userByAccount.issueCount + "</td>"; // 拼接发布量
-                            html += "<td>" + data.userByAccount.receiveCount + "</td>"; // 拼接发布量
-                            html += "<td>" + data.userByAccount.credit + "</td>"; // 拼接信用
-                            html += "<td>" + "<a class=\"btn btn-info\" href=\"#\"><i class=\"halflings-icon white edit\"></i></a>" + "</td>"; // 拼接详细
-                            html += "</tr>";
+                        // 循环打印输出
+                        var html ="";
+                            html +="<tr>";
+                            html+="<td >"+data.users.name+"</td>"; // 拼接名称
+                            html +="<td>"+data.users.account+"</td>"; // 拼接账号
+                            html +="<td>"+data.users.issueCount+"</td>"; // 拼接发布量
+                            html +="<td>"+data.users.receiveCount+"</td>"; // 拼接发布量
+                            html +="<td>"+data.users.credit+"</td>"; // 拼接账号
+                            html +="<td>"+"<a class=\"btn btn-info\" href=\"#\"><i class=\"halflings-icon white edit\"></i></a>"+"</td>"; // 拼接详细
+                            html+="</tr>";
+
                         $("#Info").append(html);
                     }
                 },
@@ -460,9 +452,8 @@
 <%--任务查询--%>
 <script>
     $("#searchTask").click(function () {
-       var  required = $("#searchTaskOption option:selected").val();
+        var  required = $("#searchTaskOption option:selected").val();
         content = document.getElementById("searchRequire").value;
-       alert(required);
        $.ajax({
            url:"/searchByRequired",
            data:{
@@ -470,14 +461,63 @@
                type:required
            },
            datatype:'json',
-           success:function () {
-                alert("成功");
+           success:function (data) {
+               if (data =="") {
+                   alert("没有查到对应的数据，重新输入把");
+               }else {
+                   tasks =data.tasks;
+                  showTasks();
+               }
            },
            error:function () {
                alert("服务器有点小问题");
            }
        })
     });
+</script>
+<script>
+    function showUsers() {
+        // 清空信息
+        $("#Info").empty();
+        // 循环打印输出
+        var html ="";
+        for (var i=0;i<users.length;i++){
+            html +="<tr>";
+            html+="<td >"+users[i].name+"</td>"; // 拼接名称
+            html +="<td>"+users[i].account+"</td>"; // 拼接账号
+            html +="<td>"+users[i].issueCount+"</td>"; // 拼接发布量
+            html +="<td>"+users[i].receiveCount+"</td>"; // 拼接发布量
+            html +="<td>"+users[i].credit+"</td>"; // 拼接账号
+            html +="<td>"+"<button onclick='' class=\"btn btn-info\" href=\"#\" value=\""+users[i].account+"\"><i class=\"halflings-icon white edit\"></i></button>"+"</td>"; // 拼接详细
+            html+="</tr>";
+
+        }
+        $("#Info").append(html);
+    };
+    function showTasks() {
+        // 清空信息
+        $("#Info").empty();
+        // 循环打印输出
+        var html ="";
+        for (var i=0;i<tasks.length;i++){
+            html +="<tr>";
+            html+="<td >"+tasks[i].id+"</td>"; // 拼接id
+            html +="<td>"+tasks[i].issueAccount+"</td>"; // 拼接发布账号
+            if (tasks[i].receiveaccount==null){
+                // 如果无人领取
+                html +="<td>"+"未领取"+"</td>";
+            }else {
+                html +="<td>"+tasks[i].receiveaccount+"</td>"; // 拼接领取人账号
+            }
+            html +="<td>"+tasks[i].type+"</td>"; // 拼接类型
+            html +="<td>"+tasks[i].price+"</td>"; // 拼接价格
+            html +="<td>"+"<button class=\"btn btn-info\" href=\"#\" value=\""+tasks[i].id+"\"><i class=\"halflings-icon white edit\"></i></button>"; // 拼接详细
+            html +="<button onclick='deleteOrder(this)' class=\"btn btn-danger\" href=\"#\" id='' value=\""+tasks[i].id+"\"><i class=\"halflings-icon white trash\"></i></button>";  // 删除
+            html+="</td></tr>";
+
+        }
+        $("#Info").append(html);
+    }
 </script>
 </body>
 </html>

@@ -39,10 +39,20 @@ public class TaskManager {
         // service层操作
         List<Task> tasks = taskService.selectByWhere(content,type);
         if (tasks.size()!=0){
+            System.out.println(tasks.size());
+            for (Task task:tasks){
+                System.out.println(task.toString());
+            }
             jsonObject.put("tasks",tasks);
         }else {
             return null;
         }
         return  jsonObject;
+    }
+    // 删除任务
+    @RequestMapping("/delete")
+    @ResponseBody
+    public void deletTask(int id){
+        taskService.deletTask(id);
     }
 }

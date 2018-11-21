@@ -3,7 +3,6 @@ package com.school.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.school.bean.User;
 import com.school.service.LoginService;
-import com.school.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +40,6 @@ public class LoginController {
         request.getSession().setMaxInactiveInterval(30*24*60*60); // session时间位30 天
         request.getSession().setAttribute("account",user.getAccount()); // 记录账号
         // 直接使用bean将导致参数类型不同时报404
-        System.out.println(user.toString());
         user = loginService.isLoginSuccess(user);
         // 指定页面
         if (user!=null){
@@ -66,11 +64,8 @@ public class LoginController {
     @RequestMapping("/loginSuccess")
     public ModelAndView modelAndView(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
-        // 添加分页，防止初始页面报错
-//        modelAndView.addObject("userPage",new Page());
-//        modelAndView.addObject("taskPage",new Page());
         // 设置显示页面
-        modelAndView.setViewName("usermanager");
+        modelAndView.setViewName("manager");
         return modelAndView;
     }
 }

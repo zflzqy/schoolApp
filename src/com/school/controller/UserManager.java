@@ -40,7 +40,7 @@ public class UserManager {
         if (userByName.size()==0){
             return null;
         }
-        jsonObject.put("userByName",userByName);
+        jsonObject.put("users",userByName);
         return  jsonObject;
     }
     // 账号查询
@@ -50,7 +50,7 @@ public class UserManager {
         JSONObject jsonObject = new JSONObject();
         User userByAccount = userService.selectByAccount(account);
         if (userByAccount!=null){
-            jsonObject.put("userByAccount",userByAccount);
+            jsonObject.put("users",userByAccount);
         }else {
             return null;
         }

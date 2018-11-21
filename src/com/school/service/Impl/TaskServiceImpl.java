@@ -52,14 +52,19 @@ public class TaskServiceImpl implements TaskService {
         List<Receivetask> receivetasks= null;
         if (!type.equals(TaskConstant.RECEIVECOUNT)){
             // 先查issue表
-            if (type.equals(TaskConstant.ACCOUNT)) {
-                issuetasks = issuetaskMapper.selectByWhere(0, Integer.parseInt(content), null, 0);
-            }else  if (type.equals(TaskConstant.TASKID)){
-                issuetasks = issuetaskMapper.selectByWhere(Integer.parseInt(content), 0, null, 0);
-            }else if (type.equals(TaskConstant.PRICE)){
-                issuetasks = issuetaskMapper.selectByWhere(0, 0, null, Float.parseFloat(content));
-            }else if (type.equals(TaskConstant.TYPE)){
-                issuetasks = issuetaskMapper.selectByWhere(0, 0, content, 0);
+            try {
+                // 捕获数据转换异常
+                if (type.equals(TaskConstant.ACCOUNT)) {
+                    issuetasks = issuetaskMapper.selectByWhere(0, Integer.parseInt(content), null, 0);
+                }else  if (type.equals(TaskConstant.TASKID)){
+                    issuetasks = issuetaskMapper.selectByWhere(Integer.parseInt(content), 0, null, 0);
+                }else if (type.equals(TaskConstant.PRICE)){
+                    issuetasks = issuetaskMapper.selectByWhere(0, 0, null, Float.parseFloat(content));
+                }else if (type.equals(TaskConstant.TYPE)){
+                    issuetasks = issuetaskMapper.selectByWhere(0, 0, content, 0);
+                }
+            }catch (Exception e){
+                return tasks;
             }
             // 查receive表
             if (issuetasks==null){
@@ -86,6 +91,12 @@ public class TaskServiceImpl implements TaskService {
             }
         }
         return tasks;
+    }
+    // 删除任务
+    @Override
+    public void deletTask(int id){
+        // 删除task
+        issuetaskMapper.deleteByPrimaryKey(id);
     }
     // 生成task根据issue和receive
     private Task getTask(Issuetask issuetask,Receivetask receivetask){
