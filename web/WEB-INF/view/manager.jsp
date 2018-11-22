@@ -167,6 +167,7 @@
 <script src="/static/js/jquery.flot.stack.js"></script>
 <script src="/static/js/jquery.flot.resize.min.js"></script>
 <script>
+    // 删除任务
     function deleteOrder(self) {
         swal({
             title: "是否删除",
@@ -196,6 +197,11 @@
                 }
             })
         });
+    }
+    // 详细跳转
+    function details(self) {
+            console.log(self.value);
+            // if (self)
     }
 </script>
 <%--显示--%>
@@ -436,7 +442,7 @@
                             html +="<td>"+data.users.issueCount+"</td>"; // 拼接发布量
                             html +="<td>"+data.users.receiveCount+"</td>"; // 拼接发布量
                             html +="<td>"+data.users.credit+"</td>"; // 拼接账号
-                            html +="<td>"+"<a class=\"btn btn-info\" href=\"#\"><i class=\"halflings-icon white edit\"></i></a>"+"</td>"; // 拼接详细
+                            html +="<td>"+"<button onclick='details(self)' class=\"btn btn-info\" value='value=\""+users[i].account+"\"' ><i class=\"halflings-icon white edit\"></i></button>"+"</td>"; // 拼接详细
                             html+="</tr>";
 
                         $("#Info").append(html);
@@ -488,7 +494,7 @@
             html +="<td>"+users[i].issueCount+"</td>"; // 拼接发布量
             html +="<td>"+users[i].receiveCount+"</td>"; // 拼接发布量
             html +="<td>"+users[i].credit+"</td>"; // 拼接账号
-            html +="<td>"+"<button onclick='' class=\"btn btn-info\" href=\"#\" value=\""+users[i].account+"\"><i class=\"halflings-icon white edit\"></i></button>"+"</td>"; // 拼接详细
+            html +="<td>"+"<button onclick='details(this)' class=\"btn btn-info\"  value=\""+users[i].account+"\"><i class=\"halflings-icon white edit\"></i></button>"+"</td>"; // 拼接详细
             html+="</tr>";
 
         }
@@ -511,7 +517,7 @@
             }
             html +="<td>"+tasks[i].type+"</td>"; // 拼接类型
             html +="<td>"+tasks[i].price+"</td>"; // 拼接价格
-            html +="<td>"+"<button class=\"btn btn-info\" href=\"#\" value=\""+tasks[i].id+"\"><i class=\"halflings-icon white edit\"></i></button>"; // 拼接详细
+            html +="<td>"+"<button class=\"btn btn-info\" onclick='details(this)' value=\""+tasks[i].id+"\"><i class=\"halflings-icon white edit\"></i></button>"; // 拼接详细
             html +="<button onclick='deleteOrder(this)' class=\"btn btn-danger\" href=\"#\" id='' value=\""+tasks[i].id+"\"><i class=\"halflings-icon white trash\"></i></button>";  // 删除
             html+="</td></tr>";
 
