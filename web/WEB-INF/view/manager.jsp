@@ -202,6 +202,7 @@
     function details(self) {
             console.log(self.value);
             // if (self)
+        document.location.href="/turnUserDetail"+"?account="+self.value;
     }
 </script>
 <%--显示--%>

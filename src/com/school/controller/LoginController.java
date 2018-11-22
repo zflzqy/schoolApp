@@ -62,10 +62,19 @@ public class LoginController {
     }
     // 成功登录后执行该地址
     @RequestMapping("/loginSuccess")
-    public ModelAndView modelAndView(HttpServletRequest request){
+    public ModelAndView loginSuccess(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
         // 设置显示页面
         modelAndView.setViewName("manager");
         return modelAndView;
     }
+    // tets
+    @RequestMapping("/test")
+    public ModelAndView test(HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        // 设置显示页面
+        modelAndView.setViewName("detail");
+        return modelAndView;
+    }
+
 }

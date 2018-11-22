@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.util.List;
 
 @Controller
@@ -19,7 +21,7 @@ public class UserManager {
     // 获取用户信息
     @RequestMapping("/userManager")
     @ResponseBody
-    public JSONObject manager(Page userPage){
+    public JSONObject Manager(Page userPage){
         JSONObject jsonObject = new JSONObject();
         // 分页查询得到用户项
         List<User> users = userService.selectLimit(userPage);
@@ -34,7 +36,7 @@ public class UserManager {
     // 用户名查询
     @RequestMapping("/searchByName")
     @ResponseBody
-    public JSONObject searchByName(String name){
+    public JSONObject SearchByName(String name){
         JSONObject jsonObject = new JSONObject();
         List<User> userByName = userService.selectByName(name);
         if (userByName.size()==0){
@@ -46,7 +48,7 @@ public class UserManager {
     // 账号查询
     @RequestMapping("/searchByAccount")
     @ResponseBody
-    public  JSONObject searchByAccount(int account){
+    public  JSONObject SearchByAccount(int account){
         JSONObject jsonObject = new JSONObject();
         User userByAccount = userService.selectByAccount(account);
         if (userByAccount!=null){
@@ -56,4 +58,12 @@ public class UserManager {
         }
         return jsonObject;
     }
+    // 详细跳转
+    @RequestMapping("/turnUserDetail")
+    public ModelAndView TurnUserDetail(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("detail");
+        return modelAndView;
+    }
+    // 修改属性
 }

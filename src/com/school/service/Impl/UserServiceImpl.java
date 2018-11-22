@@ -65,4 +65,5 @@ public class UserServiceImpl implements UserService {
         user.setReceiveCount(receivetaskMapper.selectReceiveCountByAcount(user.getAccount()));
         return user;
     }
+
 }
