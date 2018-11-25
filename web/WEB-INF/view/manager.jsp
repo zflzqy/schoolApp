@@ -84,8 +84,8 @@
         <div id="sidebar-left" class="span2">
             <div class="nav-collapse sidebar-nav">
                 <ul class="nav nav-tabs nav-stacked main-menu">
-                    <li><a ><i class="icon-bar-chart"></i><span id="userManager" class="hidden-tablet"> 用户管理</span></a></li>
-                    <li><a><i class="icon-align-justify"></i><span id="taskManager" class="hidden-tablet"> 订单管理</span></a></li>
+                    <li><a  id="userManager"><i class="icon-bar-chart"></i><span  class="hidden-tablet"> 用户管理</span></a></li>
+                    <li><a  id="taskManager"><i class="icon-align-justify"></i><span class="hidden-tablet"> 订单管理</span></a></li>
                 </ul>
             </div>
         </div>
@@ -166,6 +166,8 @@
 <script src="/static/js/jquery.flot.pie.js"></script>
 <script src="/static/js/jquery.flot.stack.js"></script>
 <script src="/static/js/jquery.flot.resize.min.js"></script>
+
+<%--删除任务--%>
 <script>
     // 删除任务
     function deleteOrder(self) {
@@ -199,10 +201,15 @@
         });
     }
     // 详细跳转
-    function details(self) {
-            console.log(self.value);
-            // if (self)
-        document.location.href="/turnUserDetail"+"?account="+self.value;
+    function userDetail(self) {
+        console.log(self.value);
+        document.location.href="/turnUserDetail?account="+self.value;
+        return false;
+    }
+    function taskDetail(self) {
+        console.log(self.value);
+        document.location.href="/turnUserDetail?id="+self.value;
+        return false;
     }
 </script>
 <%--显示--%>
@@ -443,7 +450,7 @@
                             html +="<td>"+data.users.issueCount+"</td>"; // 拼接发布量
                             html +="<td>"+data.users.receiveCount+"</td>"; // 拼接发布量
                             html +="<td>"+data.users.credit+"</td>"; // 拼接账号
-                            html +="<td>"+"<button onclick='details(self)' class=\"btn btn-info\" value='value=\""+users[i].account+"\"' ><i class=\"halflings-icon white edit\"></i></button>"+"</td>"; // 拼接详细
+                            html +="<td>"+"<button onclick='userDetail(self)' class=\"btn btn-info\" value='value=\""+users[i].account+"\"' ><i class=\"halflings-icon white edit\"></i></button>"+"</td>"; // 拼接详细
                             html+="</tr>";
 
                         $("#Info").append(html);
@@ -495,7 +502,7 @@
             html +="<td>"+users[i].issueCount+"</td>"; // 拼接发布量
             html +="<td>"+users[i].receiveCount+"</td>"; // 拼接发布量
             html +="<td>"+users[i].credit+"</td>"; // 拼接账号
-            html +="<td>"+"<button onclick='details(this)' class=\"btn btn-info\"  value=\""+users[i].account+"\"><i class=\"halflings-icon white edit\"></i></button>"+"</td>"; // 拼接详细
+            html +="<td>"+"<button onclick='userDetail(this)' class=\"btn btn-info\"  value=\""+users[i].account+"\"><i class=\"halflings-icon white edit\"></i></button>"+"</td>"; // 拼接详细
             html+="</tr>";
 
         }
@@ -518,13 +525,27 @@
             }
             html +="<td>"+tasks[i].type+"</td>"; // 拼接类型
             html +="<td>"+tasks[i].price+"</td>"; // 拼接价格
-            html +="<td>"+"<button class=\"btn btn-info\" onclick='details(this)' value=\""+tasks[i].id+"\"><i class=\"halflings-icon white edit\"></i></button>"; // 拼接详细
+            html +="<td>"+"<button class=\"btn btn-info\" onclick='taskDetail(this)' value=\""+tasks[i].id+"\"><i class=\"halflings-icon white edit\"></i></button>"; // 拼接详细
             html +="<button onclick='deleteOrder(this)' class=\"btn btn-danger\" href=\"#\" id='' value=\""+tasks[i].id+"\"><i class=\"halflings-icon white trash\"></i></button>";  // 删除
             html+="</td></tr>";
 
         }
         $("#Info").append(html);
     }
+</script>
+<%--处理谁跳转这个页面--%>
+<script>
+    $(document).ready(function () {
+        var url  = document.URL;
+        var type = url.substring(url.lastIndexOf("?")+1);
+        if(type=="account"){
+            document.getElementById("userManager").click();
+            $("#userManager").trigger("click");
+        }else  if (type=="id"){
+            document.getElementById("taskManager").click();
+        }
+    });
+
 </script>
 </body>
 </html>

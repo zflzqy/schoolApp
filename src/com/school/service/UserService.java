@@ -14,4 +14,6 @@ public interface UserService {
     List<User> selectByName(String name);
     // 按账号查询
     User selectByAccount(int account);
+    // 修改属性
+    int updateUser(User user);
 }

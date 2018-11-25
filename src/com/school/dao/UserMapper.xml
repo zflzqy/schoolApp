@@ -38,6 +38,11 @@
       otheraccount = #{otheraccount,jdbcType=VARCHAR}
     where account = #{account,jdbcType=INTEGER}
   </update>
+  <update id="updateUserByAccount" parameterType="com.school.bean.User">
+    update  user
+    set  credit = #{credit,jdbcType=INTEGER}
+    where account = #{account,jdbcType=INTEGER}
+  </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select account, name, age, sex, school, password, path, credit, otheraccount
     from user
@@ -68,4 +73,5 @@
     select * from user
     <where>and account=#{account}</where>
   </select>
+
 </mapper>

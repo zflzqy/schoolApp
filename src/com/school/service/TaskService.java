@@ -12,4 +12,6 @@ public interface TaskService {
     List<Task> selectByWhere(String content,String type);
     // 删除任务
     void deletTask(int id);
+    // 修改任务
+    int updateTask(Task task);
 }

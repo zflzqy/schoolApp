@@ -60,10 +60,23 @@ public class UserManager {
     }
     // 详细跳转
     @RequestMapping("/turnUserDetail")
-    public ModelAndView TurnUserDetail(){
+    public ModelAndView turnUserDetail(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("detail");
         return modelAndView;
     }
     // 修改属性
+    @RequestMapping("/updateUser")
+    @ResponseBody
+    public JSONObject updateUser(User user){
+        JSONObject jsonObject = new JSONObject();
+        System.out.println(user.toString());
+        // 影响的行数
+        int row = userService.updateUser(user);
+        if (row==0){
+            // 如果影响的行数为0
+            return null;
+        }
+        return jsonObject;
+    }
 }

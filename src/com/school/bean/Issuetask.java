@@ -1,5 +1,7 @@
 package com.school.bean;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Issuetask {
@@ -12,7 +14,7 @@ public class Issuetask {
     private Float price; // 任务价格
 
     private String type; // 任务类型
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date starttime; // 任务开始时间
 
     private Integer endtime; // 任务需要多少时间

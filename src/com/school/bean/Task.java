@@ -1,5 +1,7 @@
 package com.school.bean;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 /*
 *  任务类
@@ -15,7 +17,7 @@ public class Task {
 
     private String type; // 任务类型
 
-    private Date starttime; // 任务开始时间
+    private String starttime; // 任务开始时间
 
     private Integer endtime; // 任务需要多少时间
 
@@ -32,7 +34,7 @@ public class Task {
     // 领取信息
     private Integer receiveaccount; // 领取人账号
 
-    private Date finishtime; // 完成时间
+    private String finishtime; // 完成时间
 
     public Integer getId() {
         return id;
@@ -74,12 +76,20 @@ public class Task {
         this.type = type;
     }
 
-    public Date getStarttime() {
+    public String getStarttime() {
         return starttime;
     }
 
-    public void setStarttime(Date starttime) {
+    public void setStarttime(String starttime) {
         this.starttime = starttime;
+    }
+
+    public String getFinishtime() {
+        return finishtime;
+    }
+
+    public void setFinishtime(String finishtime) {
+        this.finishtime = finishtime;
     }
 
     public Integer getEndtime() {
@@ -138,13 +148,6 @@ public class Task {
         this.receiveaccount = receiveaccount;
     }
 
-    public Date getFinishtime() {
-        return finishtime;
-    }
-
-    public void setFinishtime(Date finishtime) {
-        this.finishtime = finishtime;
-    }
 
     @Override
     public String toString() {

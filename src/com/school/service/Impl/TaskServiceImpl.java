@@ -7,10 +7,12 @@ import com.school.constant.TaskConstant;
 import com.school.dao.IssuetaskMapper;
 import com.school.dao.ReceivetaskMapper;
 import com.school.service.TaskService;
+import com.school.util.Datechange;
 import com.school.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,15 +114,26 @@ public class TaskServiceImpl implements TaskService {
         task.setIssueAccount(issuetask.getIssueAccount());
         task.setPrice(issuetask.getPrice());
         task.setRequest(issuetask.getRequest());
-        task.setStarttime(issuetask.getStarttime());
+        task.setStarttime(Datechange.dateToString(issuetask.getStarttime()));
         task.setType(issuetask.getType());
         // 填充领取信息
         if (receivetask==null){
             // 如果为空则不填充
         }else {
             task.setReceiveaccount(receivetask.getReceiveaccount());
-            task.setFinishtime(receivetask.getFinishtime());
+            task.setFinishtime(Datechange.dateToString(receivetask.getFinishtime()));
         }
         return task;
+    }
+    @Override
+    public int updateTask(Task task){
+        // 修改任务
+        Issuetask issuetask = new Issuetask();
+        // 设置issuetask 相关属性
+        issuetask.setId(task.getId());
+        issuetask.setAppraise(task.getAppraise());
+        issuetask.setAppraiselevel(task.getAppraiselevel());
+        int row = issuetaskMapper.updateTaskAppriase(issuetask);
+        return row;
     }
 }

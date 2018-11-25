@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@  taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
 
@@ -62,7 +63,7 @@
             <ul class="breadcrumb">
                 <li>
                     <i class="icon-home"></i>
-                    <a >后台管理</a>
+                    <a href="/loginSuccess">后台管理</a>
                     <i class="icon-angle-right"></i>
                 </li>
                 <li>
@@ -75,7 +76,7 @@
             <div class="row-fluid sortable">
                 <div class="box span12">
                     <div class="box-header" data-original-title>
-                        <h2><i class="halflings-icon white edit"></i><span class="break"></span>用户修改还是任务修改</h2>
+                        <h2 id="tip"><i class="halflings-icon white edit"></i>用户修改还是任务修改</h2>
                     </div>
                     <div class="box-content">
                         <form class="form-horizontal">
@@ -97,117 +98,73 @@
                                 <div class="control-group">
                                     <label class="control-label" id="ageOrtype" for="ageOrtype">年龄 类型</label>
                                     <div class="control-label">
-                                        <label id="ageOrtypeValue" style="float: left;padding-left: 20px">hellp</label>
+                                        <label id="ageOrtypeValue" style="float: left;padding-left: 20px;">hellp</label>
                                     </div>
                                     <div id="priceContent">
-                                    <label id="price" class="control-label" for="price" style="float: left"> 价格</label>
+                                    <label id="price" for="price" style="float: left;padding-top: 5px"> 价格</label>
                                         <div class="control-label">
                                             <label id="priceValue" style="float: left;padding-left: 20px">hellp</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" id="sexOrstarttime">性别or开始时间</label>
+                                    <label class="control-label" style="padding-top:5px" id="sexOrstarttime">性别or开始时间</label>
                                     <div class="control-label" >
                                         <label id="sexOrstarttimeValue" style="float: left;padding-left: 20px"></label>
                                     </div>
                                     <div id="needTimeContent">
-                                        <label id="needtime" class="control-label"style="float: left;" >需要时间</label>
+                                        <label id="needtime" style="float: left;padding-top: 5px" >需要时间</label>
                                         <div class="control-label">
-                                            <label id="needtimeValue" style="float: left;padding-left: 20px"></label>
+                                            <label id="needtimeValue" style="float: left;padding-left: 20px">asdasd</label>
                                         </div>
                                     </div>
                                     <div id="finisTimeContent">
-                                        <label id="finishtime" class="control-label" > 完成时间</label>
-                                        <div class="control-label">
-                                            <label id="finishtimeValue" style="float: left;padding-left: 20px"></label>
+                                        <label id="finishtime" style="float: left;padding-top: 5px"> 完成时间</label>
+                                        <div class="control-label" style="display: inline">
+                                            <label id="finishtimeValue" style="float: left;padding-left: 20px">asdasd</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" id="schoolOrreceive">所属学校or领取</label>
-                                    <div class="control-label" >
-                                        <label id="schoolOrreceiveValue" style="float: left;padding-left: 20px"></label>
+                                    <label class="control-label" style="padding-top:5px" id="schoolOrreceive">所属学校or领取</label>
+                                    <div  class="control-label">
+                                        <label id="schoolOrreceiveValue" style="float: left;padding-left: 20px">dsadasddsa</label>
                                     </div>
                                     <div id="giveupContent">
-                                        <label id="giveup" class="control-label" > 放弃</label>
-                                        <div class="control-label">
-                                            <label id="giveupValue" style="float: left;padding-left: 20px"></label>
+                                        <label  id="giveup" style="float: left;padding-top: 5px" >放</label>
+                                        <div  class="control-label" >
+                                            <label id="giveupValue" style="float: left;padding-left: 20px">asdasd</label>
                                         </div>
                                     </div>
                                     <div id="finishContent">
-                                        <label id="finish" class="control-label" >完成</label>
+                                        <label id="finish" style="float: left;padding-top: 5px" >完成</label>
                                         <div class="control-label">
-                                            <label id="finishValue" style="float: left;padding-left: 20px"></label>
+                                            <label id="finishValue" style="float: left;padding-left: 20px">asdasd</label>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="control-group success">
-                                    <label class="control-label" for="inputSuccess">Input with success</label>
-                                    <div class="controls">
-                                        <input type="text" id="inputSuccess">
-                                        <span class="help-inline">Woohoo!</span>
+                                <div class="control-group">
+                                    <label class="control-label" style="padding-top:5px" id="passOrRecvie">passOR领取账号</label>
+                                    <div  class="control-label">
+                                        <label id="passOrRecvieValue" style="float: left;padding-left: 20px">dsadasddsa</label>
+                                    </div>
+                                </div>
+                                <div  id="level" class="control-group">
+                                    <label class="control-label" style="padding-top:5px;padding-right: 20px" id="appriasleve">评价等级</label>
+                                    <div  class="control-label">
+                                        <input type="text" id="appriasleveValue" style="float: left;">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="selectError2">Group Select</label>
-                                    <div class="controls">
-                                        <select data-placeholder="Your Favorite Football Team" id="selectError2" data-rel="chosen">
-                                            <option value=""></option>
-                                            <optgroup label="NFC EAST">
-                                                <option>Dallas Cowboys</option>
-                                                <option>New York Giants</option>
-                                                <option>Philadelphia Eagles</option>
-                                                <option>Washington Redskins</option>
-                                            </optgroup>
-                                            <optgroup label="NFC NORTH">
-                                                <option>Chicago Bears</option>
-                                                <option>Detroit Lions</option>
-                                                <option>Green Bay Packers</option>
-                                                <option>Minnesota Vikings</option>
-                                            </optgroup>
-                                            <optgroup label="NFC SOUTH">
-                                                <option>Atlanta Falcons</option>
-                                                <option>Carolina Panthers</option>
-                                                <option>New Orleans Saints</option>
-                                                <option>Tampa Bay Buccaneers</option>
-                                            </optgroup>
-                                            <optgroup label="NFC WEST">
-                                                <option>Arizona Cardinals</option>
-                                                <option>St. Louis Rams</option>
-                                                <option>San Francisco 49ers</option>
-                                                <option>Seattle Seahawks</option>
-                                            </optgroup>
-                                            <optgroup label="AFC EAST">
-                                                <option>Buffalo Dennis Jis</option>
-                                                <option>Miami Dolphins</option>
-                                                <option>New England Patriots</option>
-                                                <option>New York Jets</option>
-                                            </optgroup>
-                                            <optgroup label="AFC NORTH">
-                                                <option>Baltimore Ravens</option>
-                                                <option>Cincinnati Bengals</option>
-                                                <option>Cleveland Browns</option>
-                                                <option>Pittsburgh Steelers</option>
-                                            </optgroup>
-                                            <optgroup label="AFC SOUTH">
-                                                <option>Houston Texans</option>
-                                                <option>Indianapolis Colts</option>
-                                                <option>Jacksonville Jaguars</option>
-                                                <option>Tennessee Titans</option>
-                                            </optgroup>
-                                            <optgroup label="AFC WEST">
-                                                <option>Denver Broncos</option>
-                                                <option>Kansas City Chiefs</option>
-                                                <option>Oakland Raiders</option>
-                                                <option>San Diego Chargers</option>
-                                            </optgroup>
-                                        </select>
+                                    <label class="control-label" style="padding-top:5px;padding-right: 20px" id="creditOrApprContet">信用和评价内容</label>
+
+                                    <div  class="control-label">
+                                        <input type="text" id="creditOrApprContetValue" style="float: left;">
                                     </div>
                                 </div>
                                 <div class="form-actions">
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                    <button class="btn">Cancel</button>
+                                    <button type="button" id="saveChange" class="btn btn-primary">保存修改</button>
+                                    <button id="previous" class="btn">返回</button>
                                 </div>
                             </fieldset>
                         </form>
@@ -293,11 +250,12 @@
 <%--隐藏部分不同--%>
 <script>
     $(document).ready(function () {
-        // $("#priceContent").hide();
-        // $("#needTimeContent").hide();
-        // $("#finisTimeContent").hide();
-        // $("#giveupContent").hide();
-        // $("#finishContent").hide();
+        $("#priceContent").hide();
+        $("#needTimeContent").hide();
+        $("#finisTimeContent").hide();
+        $("#giveupContent").hide();
+        $("#finishContent").hide();
+        $("#level").hide();
     })
 </script>
 <%--获取数据--%>
@@ -306,6 +264,7 @@
     // console.log(url.substring(url.lastIndexOf("?")+1,url.lastIndexOf('='))) // 截取传递的是什么样的参数
     // 得到何种类型的传递
     var type = url.substring(url.lastIndexOf("?")+1,url.lastIndexOf('='));
+    var  id;
     if(type=="account"){
         // 处理用户
         // console.log(url.substring(url.lastIndexOf("=")+1));
@@ -328,34 +287,189 @@
                 alert("服务器有点小问题");
             }
 
-        })
+        });
     }
     else  if(type=="id")
     {
         // 处理任务
+        id = url.substring(url.lastIndexOf("=")+1);
+        $.ajax({
+            url:"/searchByRequired",
+            data:{
+                content:id,
+                type:"任务id"
+            },
+            type:"POST",
+            datatype:'json',
+            success:function (data) {
+                console.log(data.tasks[0]);
+                var  task = data.tasks[0];
+                // 显示页面
+                showTask(task);
+            },
+            error:function () {
+                alert("服务器有点小问题");
+            }
 
+        });
     }
 
 </script>
-
+<%--显示--%>
 <script>
     function showUser(user) {
+        // 用户修改
+        $("#tip").text("用户修改");
         // 1.显示账号
-        $("#account").text("账号");
-        $("#accountValue").text(user.account);
+        showdetail($("#account"),"账号",$("#accountValue"),user.account);
         // 2.显示名字
-        $("#nameOrRequest").text("姓名");
-        $("#nameOrRequestValue").text(user.name);
+        showdetail($("#nameOrRequest"),"姓名",$("#nameOrRequestValue"),user.name);
         // 3.显示年龄
-        $("#ageOrtype").text("年龄");
-        $("#ageOrtypeValue").text(user.age);
+        showdetail($("#ageOrtype"),"年龄",$("#ageOrtypeValue"),user.age);
         // 4.性别
-        $("#sexOrstarttime").text("性别");
-        $("#sexOrstarttimeValue").text(user.sex);
+        showdetail($("#sexOrstarttime"),"性别",$("#sexOrstarttimeValue"),user.sex);
         // 5.学校
-        $("#schoolOrreceive").text("所属学校");
-        $("#schoolOrreceiveValue").text(user.school);
+        showdetail($("#schoolOrreceive"),"所属学校",$("#schoolOrreceiveValue"),user.school);
+        // 6.密码
+        showdetail($("#passOrRecvie"),"密码",$("#passOrRecvieValue"),user.password);
+        // val属性不能用该方法
+        // 7.信用 这里修改要检测是否是数字
+        $("#creditOrApprContet").text("信用");
+        $("#creditOrApprContetValue").val(user.credit);
 
+    };
+    function showTask(task) {
+        // 任务修改
+        $("#tip").text("任务修改");
+        // 先解除隐藏
+        $("#priceContent").show();
+        $("#needTimeContent").show();
+        $("#finisTimeContent").show();
+        $("#giveupContent").show();
+        $("#finishContent").show();
+        $("#level").show();
+        // 1.显示发布账号
+        showdetail($("#account"),"发布人账号",$("#accountValue"),task.issueAccount);
+        // 2.显示要求
+        showdetail($("#nameOrRequest"),"要求",$("#nameOrRequestValue"),task.request);
+        // 3.显示类型，价格
+        showdetail($("#ageOrtype"),"类型",$("#ageOrtypeValue"),task.type);
+        showdetail($("#price"),"价格",$("#priceValue"),task.price);
+        // 4.开始时间，需要时间，完成时间\
+        showdetail($("#sexOrstarttime"),"开始时间",$("#sexOrstarttimeValue"),task.starttime);
+        showdetail($("#needtime"),"需要时间",$("#needtimeValue"),task.endtime);
+        showdetail($("#finishtime"),"完成时间",$("#finishtimeValue"),task.finishtime);
+        // 5.是否领取，是否放弃，是否完成 均单独判断先不写
+        // $("#schoolOrreceive").text("是否领取");
+        // if (task.accept==)
+        // showdetail($("#schoolOrreceive"),"是否领取",$("#schoolOrreceiveValue"),task.receiveaccount);
+        // showdetail($("#finishtime"),"完成时间",$("#finishtimeValue"),task.finishtime);
+        // 6.密码
+        showdetail($("#passOrRecvie"),"领取人账号",$("#passOrRecvieValue"),task.receiveaccount);
+        // 7.评价等级
+        $("#appriasleve").text("评价等级");
+        $("#appriasleveValue").val(task.appraiselevel);
+        // 8.评价内容
+        $("#creditOrApprContet").text("评价内容");
+        $("#creditOrApprContetValue").val(task.appraise);
+
+    }
+    function showdetail(self,tip,selfValue,value) {
+        self.text(tip);
+        if (value==null){
+            selfValue.text("未设置");
+        } else {
+            selfValue.text(value);
+        }
+    }
+</script>
+<%--返回上一页--%>
+<script>
+    // 返回上一页
+    $("#previous").click(function () {
+        if(type=="account"){
+            document.location.href="/loginSuccess"+"?account";
+            return false;
+        }else if (type=="id") {
+            document.location.href="/loginSuccess"+"?id";
+            return false;
+        }
+    });
+</script>
+<%--修改--%>
+<script>
+    $("#saveChange").click(function () {
+        // 1. 获取账号label应该用htnl()获取值
+        var account = $("#accountValue").html();
+        // 2.获取信用分或者评价内容
+        var  creditOrApprContet =  $("#creditOrApprContetValue").val();
+        // 3. 获取任务评价等级(任务id在全局变量中)
+        var  level = $("#appriasleveValue").val();
+        if (type=="account"){
+            // 这里判断信用是否是数字
+            if (!checkRate(creditOrApprContet)){
+                alert("您输入的不是有效数据");
+                return false;
+            };
+            // 如果是用户的信息修改
+            $.ajax({
+                url:"/updateUser",
+                data:{
+                    account:account,
+                    credit:creditOrApprContet
+                },
+                type:"POST",
+                datatype:"json",
+                success:function (data) {
+                    if (data==""){
+                        // 后台返回了null
+                        alert("修改失败");
+                    } else {
+                        alert("修改成功");
+                    }
+                },
+                error:function () {
+                    alert("服务器有点小问题");
+                }
+            });
+        } else if (type=="id"){
+            // 这里不仅判断正整数而且判断数据范围在1——5之间
+            if (!checkRate(level)){
+                alert("您输入的不是有效数据");
+                return false;
+            }
+            // 判断数值范围
+            if (level<1||level>5){
+                alert("评价等级应该在1-5之间，包含1-5");
+            }
+            // 任务修改
+            $.ajax({
+                url:"/updateTask",
+                data:{
+                    id:id,
+                    appraise:creditOrApprContet,
+                    appraiselevel:level,
+                },
+                type:"POST",
+                datatype:"json",
+                success:function (data) {
+                    alert("成功修改");
+                },
+                error:function () {
+                    alert("服务器有点小问题");
+                }
+            });
+        }
+    });
+    //判断字符串是否为数字
+    function checkRate(nubmer) {
+        //判断正整数
+        var re = /^\d+$/;
+        if (re.test(nubmer)) {
+            return true;
+        }else{
+            return false;
+        }
     }
 </script>
 </body>

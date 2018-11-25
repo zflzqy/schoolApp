@@ -65,5 +65,9 @@ public class UserServiceImpl implements UserService {
         user.setReceiveCount(receivetaskMapper.selectReceiveCountByAcount(user.getAccount()));
         return user;
     }
-
+    // 修改属性
+    @Override
+    public int updateUser(User user){
+        return  userMapper.updateUserByAccount(user);
+    }
 }

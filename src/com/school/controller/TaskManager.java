@@ -41,7 +41,7 @@ public class TaskManager {
         if (tasks.size()!=0){
             System.out.println(tasks.size());
             for (Task task:tasks){
-                System.out.println(task.toString());
+                System.out.println("controller"+task.getStarttime());
             }
             jsonObject.put("tasks",tasks);
         }else {
@@ -54,5 +54,17 @@ public class TaskManager {
     @ResponseBody
     public void deletTask(int id){
         taskService.deletTask(id);
+    }
+    // 修改任务
+    @RequestMapping("/updateTask")
+    @ResponseBody()
+    public JSONObject updateTask(Task task){
+        JSONObject jsonObject = new JSONObject();
+        System.out.println(task.toString());
+        int row = taskService.updateTask(task);
+        if (row==0){
+            return  null;
+        }
+        return  jsonObject;
     }
 }
