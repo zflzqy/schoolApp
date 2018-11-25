@@ -70,4 +70,15 @@ public class UserServiceImpl implements UserService {
     public int updateUser(User user){
         return  userMapper.updateUserByAccount(user);
     }
+
+    // 添加客户端用户
+    @Override
+    public int addUser(User user) {
+        System.out.println(userMapper.selectByAccount(user.getAccount()));
+        if (userMapper.selectByAccount(user.getAccount())!=null){
+            // 用户已经存在
+            return  0;
+        }
+        return  userMapper.insert(user);
+    }
 }

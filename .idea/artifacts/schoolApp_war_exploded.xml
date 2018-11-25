@@ -36,6 +36,8 @@
           <element id="file-copy" path="$PROJECT_DIR$/jar/spring-webmvc-3.2.16.RELEASE.jar" />
           <element id="file-copy" path="E:/mysql/mysql-connector-java-5.0.8.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/jar/gson-2.8.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/jar/commons-fileupload-1.3.1.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/jar/commons-io-2.4.jar" />
         </element>
       </element>
     </root>

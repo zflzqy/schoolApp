@@ -16,4 +16,6 @@ public interface UserService {
     User selectByAccount(int account);
     // 修改属性
     int updateUser(User user);
+    // 客户端注册
+    int addUser(User user);
 }
