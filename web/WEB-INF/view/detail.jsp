@@ -360,10 +360,31 @@
         showdetail($("#needtime"),"需要时间",$("#needtimeValue"),task.endtime);
         showdetail($("#finishtime"),"完成时间",$("#finishtimeValue"),task.finishtime);
         // 5.是否领取，是否放弃，是否完成 均单独判断先不写
-        // $("#schoolOrreceive").text("是否领取");
-        // if (task.accept==)
-        // showdetail($("#schoolOrreceive"),"是否领取",$("#schoolOrreceiveValue"),task.receiveaccount);
-        // showdetail($("#finishtime"),"完成时间",$("#finishtimeValue"),task.finishtime);
+        // 5.1 是否领取
+        $("#schoolOrreceive").text("是否领取");
+        if (task.accept==0){
+            $("#schoolOrreceiveValue").text("未领取");
+        }else if (task.accept==1){
+            $("#schoolOrreceiveValue").text("已被领取");
+        } 
+        // 5.2 是否放弃
+        $("#giveup").text("是否放弃");
+        if (task.giveup==0){
+            $("#giveupValue").text("未放弃");
+        }else  if (task.giveup==1||task.giveup==3) {
+            $("#giveupValue").text("已放弃，等待对方同意");
+        }else  if (task.giveup==1||task.giveup==3) {
+            $("#giveupValue").text("已放弃");
+        }
+        // 5.3完成
+        $("#finish").text("是否完成");
+        if (task.finished==0){
+            $("#finishValue").text("未完成");
+        } else if (task.finished==1){
+            $("#finishValue").text("已完成，等待付款");
+        }else if (task.finished==2||task.finished==3){
+            $("#finishValue").text("已完成");
+        }
         // 6.密码
         showdetail($("#passOrRecvie"),"领取人账号",$("#passOrRecvieValue"),task.receiveaccount);
         // 7.评价等级
