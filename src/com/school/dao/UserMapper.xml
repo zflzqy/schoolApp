@@ -11,6 +11,7 @@
     <result column="path" property="path" jdbcType="VARCHAR" />
     <result column="credit" property="credit" jdbcType="INTEGER" />
     <result column="otheraccount" property="otheraccount" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user
@@ -19,23 +20,24 @@
   <insert id="insert" parameterType="com.school.bean.User" >
     insert into user (account, name, age, 
       sex, school, password, 
-      path, credit, otheraccount
+      path, credit, otheraccount,
+      type
       )
     values (#{account,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=SMALLINT}, 
       #{sex,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{path,jdbcType=VARCHAR}, #{credit,jdbcType=INTEGER}, #{otheraccount,jdbcType=VARCHAR}
+      #{path,jdbcType=VARCHAR}, #{credit,jdbcType=INTEGER}, #{otheraccount,jdbcType=VARCHAR},
+      #{type,jdbcType=INTEGER}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.school.bean.User" >
+  <update id="updateUserByC" parameterType="com.school.bean.User">
     update user
     set name = #{name,jdbcType=VARCHAR},
       age = #{age,jdbcType=SMALLINT},
       sex = #{sex,jdbcType=VARCHAR},
       school = #{school,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
       path = #{path,jdbcType=VARCHAR},
-      credit = #{credit,jdbcType=INTEGER},
-      otheraccount = #{otheraccount,jdbcType=VARCHAR}
+      otheraccount = #{otheraccount,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER}
     where account = #{account,jdbcType=INTEGER}
   </update>
   <update id="updateUserByAccount" parameterType="com.school.bean.User">
@@ -44,16 +46,16 @@
     where account = #{account,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select account, name, age, sex, school, password, path, credit, otheraccount
+    select account, name, age, sex, school, password, path, credit, otheraccount, type
     from user
     where account = #{account,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select account, name, age, sex, school, password, path, credit, otheraccount
+    select account, name, age, sex, school, password, path, credit, otheraccount, type
     from user
   </select>
   <select id="selectByAccoAndPass" parameterType="com.school.bean.User" resultMap="BaseResultMap">
-    select account, name, age, sex, school, password, path, credit, otheraccount
+    select account, name, age, sex, school, password, path, credit, otheraccount, type
     from  user where  account=#{account} and password=#{password}
   </select>
   <select id="total" resultType="int">

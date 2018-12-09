@@ -79,6 +79,20 @@ public class UserServiceImpl implements UserService {
             // 用户已经存在
             return  0;
         }
+        // 客户端注册人员是type==3
+        user.setType(3);
         return  userMapper.insert(user);
+    }
+    // 客户端修改用户属性
+    @Override
+    public int updateUserByC(User user){
+        return userMapper.updateUserByC(user);
+    }
+    // 是否成功登录
+    @Override
+    public User isLoginSuccess(User user) {
+        // 调用dao层获取数据
+        User u =  userMapper.selectByAccoAndPass(user);
+        return u;
     }
 }

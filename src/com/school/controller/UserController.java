@@ -15,13 +15,13 @@ import java.util.List;
 @Controller
 @RequestMapping("")
 // 用户管理控制器
-public class UserManager {
+public class UserController {
     @Autowired
     UserService userService;
     // 获取用户信息
-    @RequestMapping("/userManager")
+    @RequestMapping("/getUser")
     @ResponseBody
-    public JSONObject Manager(Page userPage){
+    public JSONObject getUser(Page userPage){
         JSONObject jsonObject = new JSONObject();
         // 分页查询得到用户项
         List<User> users = userService.selectLimit(userPage);

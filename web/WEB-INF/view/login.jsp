@@ -167,10 +167,14 @@
             },
             type:"POST",
             success:function (data) {
+                if (data.fail=="nomanger"){
+                    alert("您不是管理员");
+                    return false;
+                }
                 if (data.fail=="fail"){
                     alert("账号或密码有误");
                 }else {
-                    window.location.href='/loginSuccess';
+                    window.location.href='/loginSuccess?account='+account;
                 }
             },
             error:function () {

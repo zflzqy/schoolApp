@@ -5,7 +5,10 @@ import com.school.util.Page;
 
 import java.util.List;
 
-public interface TaskService {
+/*
+*  发布任务服务
+* */
+public interface IssueTaskService {
     // 获订单信息（分页）
     List<Task> selectTask(Page page);
     // 获取任务按条件查询

@@ -23,6 +23,8 @@ public class User {
 
     private Integer receiveCount; // 领取量
 
+    private Integer type; // 用户的属性
+
     public Integer getAccount() {
         return account;
     }
@@ -109,6 +111,14 @@ public class User {
 
     public void setReceiveCount(Integer receiveCount) {
         this.receiveCount = receiveCount;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     @Override

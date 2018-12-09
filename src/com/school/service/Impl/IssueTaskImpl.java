@@ -6,18 +6,17 @@ import com.school.bean.Task;
 import com.school.constant.TaskConstant;
 import com.school.dao.IssuetaskMapper;
 import com.school.dao.ReceivetaskMapper;
-import com.school.service.TaskService;
+import com.school.service.IssueTaskService;
 import com.school.util.Datechange;
 import com.school.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service("TaskService")
-public class TaskServiceImpl implements TaskService {
+@Service
+public class IssueTaskImpl implements IssueTaskService {
     @Autowired
     IssuetaskMapper issuetaskMapper;
     @Autowired

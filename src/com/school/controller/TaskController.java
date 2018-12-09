@@ -2,7 +2,7 @@ package com.school.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.school.bean.Task;
-import com.school.service.TaskService;
+import com.school.service.IssueTaskService;
 import com.school.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,15 +14,15 @@ import java.util.List;
 @Controller
 @RequestMapping("")
 // 订单管理控制器
-public class TaskManager {
+public class TaskController {
     @Autowired
-    TaskService taskService;
+    IssueTaskService issueTaskService;
     // 获取任务信息
     @RequestMapping("/taskManager")
     @ResponseBody
     public JSONObject orderMannager(Page taskPage){
         JSONObject jsonObject = new JSONObject();
-        List<Task> tasks = taskService.selectTask(taskPage);
+        List<Task> tasks = issueTaskService.selectTask(taskPage);
         if (tasks.size()!=0){
             jsonObject.put("tasks",tasks);
             jsonObject.put("tasklast",taskPage.getLast());
@@ -37,7 +37,7 @@ public class TaskManager {
     public JSONObject searchByRequired(String content,String type){
         JSONObject jsonObject = new JSONObject();
         // service层操作
-        List<Task> tasks = taskService.selectByWhere(content,type);
+        List<Task> tasks = issueTaskService.selectByWhere(content,type);
         if (tasks.size()!=0){
             System.out.println(tasks.size());
             for (Task task:tasks){
@@ -50,10 +50,10 @@ public class TaskManager {
         return  jsonObject;
     }
     // 删除任务
-    @RequestMapping("/delete")
+    @RequestMapping("/deletTask")
     @ResponseBody
     public void deletTask(int id){
-        taskService.deletTask(id);
+        issueTaskService.deletTask(id);
     }
     // 修改任务
     @RequestMapping("/updateTask")
@@ -61,7 +61,7 @@ public class TaskManager {
     public JSONObject updateTask(Task task){
         JSONObject jsonObject = new JSONObject();
         System.out.println(task.toString());
-        int row = taskService.updateTask(task);
+        int row = issueTaskService.updateTask(task);
         if (row==0){
             return  null;
         }

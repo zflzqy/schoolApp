@@ -18,4 +18,8 @@ public interface UserService {
     int updateUser(User user);
     // 客户端注册
     int addUser(User user);
+    // 客户端修改属性
+    int updateUserByC(User user);
+    // 是否成功登录
+    User isLoginSuccess(User user);
 }

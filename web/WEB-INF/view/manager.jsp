@@ -86,6 +86,7 @@
                 <ul class="nav nav-tabs nav-stacked main-menu">
                     <li><a  id="userManager"><i class="icon-bar-chart"></i><span  class="hidden-tablet"> 用户管理</span></a></li>
                     <li><a  id="taskManager"><i class="icon-align-justify"></i><span class="hidden-tablet"> 订单管理</span></a></li>
+                    <li><a  id="managerManager"><i class="icon-align-justify"></i><span class="hidden-tablet">管理员管理</span></a></li>
                 </ul>
             </div>
         </div>
@@ -221,8 +222,15 @@
     var  count = 10;
     var  userlast,tasklast;
     var  users,tasks; // 存放数据
+    var  user; // 登录的管理员
     $(document).ready(function () {
         document.getElementById("content").style.display="none";
+        $("#managerManager").hide();
+        user = ${user};
+        if (user.type==1){
+            // 如果是超级管理员，则显示管理按钮
+            $("#managerManager").show();
+        }
     });
     $("#userManager").click(function () {
         // 用户管理
@@ -237,7 +245,7 @@
         // 清空查询条件
         $("#searchRequire").val("");
         $.ajax({
-            url:"/userManager",
+            url:"/getUser",
             data:{
                 start:userstart
             },
@@ -289,7 +297,8 @@
                 document.getElementById("five").innerText="价格";
                 document.getElementById("six").innerText="详细";
                 tasks= data.tasks;
-               showTasks();
+
+                showTasks();
             },
             error:function () {
                 alert("服务器出了点小问题啦");

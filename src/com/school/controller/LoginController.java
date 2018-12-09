@@ -2,7 +2,7 @@ package com.school.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.school.bean.User;
-import com.school.service.LoginService;
+import com.school.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 * */
 public class LoginController {
     @Autowired
-    LoginService loginService;
+    UserService userService;
     // 登录页面
     @RequestMapping("/login")
     public ModelAndView login(HttpServletRequest request){
@@ -40,9 +40,14 @@ public class LoginController {
         request.getSession().setMaxInactiveInterval(30*24*60*60); // session时间位30 天
         request.getSession().setAttribute("account",user.getAccount()); // 记录账号
         // 直接使用bean将导致参数类型不同时报404
-        user = loginService.isLoginSuccess(user);
+        User resuser = userService.isLoginSuccess(user);
         // 指定页面
-        if (user!=null){
+        if (resuser!=null){
+            // 防止普通用户进入
+            if (resuser.getType()==3){
+                jsonObject.put("fail","nomanger");
+                return  jsonObject;
+            }
             // 成功
             if (remember){
                 // 如果点击了记住密码则把密码记录到session会话中
@@ -58,12 +63,22 @@ public class LoginController {
             // 失败提示
             jsonObject.put("fail","fail");
         }
+        // user回传到前端
+        jsonObject.put("user",user);
         return jsonObject;
     }
-    // 成功登录后执行该地址
+    // 成功登录后执行该地址(为了让前端知道密码错误了)
     @RequestMapping("/loginSuccess")
     public ModelAndView loginSuccess(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
+        // 获取前端传递而来的url
+        String URL = request.getQueryString();
+        // 根据URL获取账号
+        int account = Integer.parseInt(URL.substring(URL.indexOf("=")+1));
+        // 根据账号获得账号信息
+        User user = userService.selectByAccount(account);
+        // 将账号信息回传
+        modelAndView.addObject("user",user);
         // 设置显示页面
         modelAndView.setViewName("manager");
         return modelAndView;
