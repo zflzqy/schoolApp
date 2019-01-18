@@ -6,6 +6,8 @@
 删除索引：DROP INDEX index_name ON talbe_name
 查看索引:show index（keys） from tblname;括号内互换
 修改索引：先删除再增加
+修改默认：ALTER TABLE tbl_name ALTER字段名称SET DEFAULT默认值
+删除默认：ALTER TABLE tbl_name ALTER字段名称DROP DEFAULT
 外键的命名为 fk_外键所在的表名_外键引用的表名 。
 当添加controller注解传入的参数时要注意传入的类型，即前端的encodetype
 注入bean类型是可以不用完全参数注入，只注入部分参数
@@ -17,3 +19,4 @@ Result Maps collection does not contain value for xxx         :
 认真检查其它语句。
 样式问题====》编码导致
 价格类型如果like 是有问题的，所以对齐进行在该价格范围内浮动为10 进行查询
+// Android从网络获取的数据如果为int但是不转化成String就写入控件内会报资源无法找到异常
